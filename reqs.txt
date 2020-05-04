@@ -6,4 +6,4 @@ https://virtualenvwrapper.readthedocs.io/en/latest/
 
 
 $mkvirtualenv new_jarvis -p python3 (creates a virtual python3 env)
-$python3 -m pip install -U discord.py
+$python3 -m pip install -U discord.py beautifulsoup4 requests
