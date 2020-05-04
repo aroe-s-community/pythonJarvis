@@ -9,4 +9,4 @@ Add Dependencies Here
 * requests
 * discord.py
 
-`pip install beautifulsoup4 requests lxml discord.py`
+`pip install -r requirements.txt`

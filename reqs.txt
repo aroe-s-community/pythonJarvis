@@ -1,9 +1,0 @@
-## Download these before attempting to run/work on the bot
-
-Install the below package to access the rest of the dependencies:
-
-https://virtualenvwrapper.readthedocs.io/en/latest/
-
-
-$mkvirtualenv new_jarvis -p python3 (creates a virtual python3 env)
-$python3 -m pip install -U discord.py beautifulsoup4 requests
