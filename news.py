@@ -1,15 +1,16 @@
 from bs4 import BeautifulSoup
-import requests
 import csv
+import requests
 
-def pl():
-    print('\n')
+# Sometimes requests doesn't work unless you have a User-Agent header *shrug*
+headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
 
+# Get today's news from bleepingcomputer.com
 def bleeping_computer():
+    # This will hold the data points from each article
     articles = []
 
     url = "https://www.bleepingcomputer.com/"
-    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
 
     # Connect to site
     r1 = requests.get(url, headers=headers)
@@ -36,15 +37,18 @@ def bleeping_computer():
 
     return articles
 
-
 # Contents requires each article to have: title, link, description, author
 # ORDER MATTERS
-def write_to_csv(contents):
+def append_csv(contents, filename):
     # Open csv file
-    with open('tmp/articles.csv', mode='w') as headline_file:
-        headline_writer = csv.writer(headline_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    with open('tmp/articles.csv', mode='a') as fp:
+        headline_writer = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         # Write each article to csv
         for c in contents:
             headline_writer.writerow(c)
 
+# Clear a csv file
+def clear_csv(filename):
+    with open(filename, mode='w') as fp:
+        fp.close()
