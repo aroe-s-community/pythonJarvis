@@ -1,54 +1,115 @@
 from bs4 import BeautifulSoup
-import csv
+from datetime import date, datetime
 import requests
 
-# Sometimes requests doesn't work unless you have a User-Agent header *shrug*
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
+class News:
+    # Sometimes requests doesn't work unless we have some specific headers *shrug*
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
 
-# Get today's news from bleepingcomputer.com
-def bleeping_computer():
-    # This will hold the data points from each article
-    articles = []
+    @staticmethod
+    def getSoup(url):
+        site = requests.get(url, headers=News.headers)
+        coverpage = site.content
+        soup = BeautifulSoup(coverpage, 'lxml')
 
-    url = "https://www.bleepingcomputer.com/"
+        return soup
 
-    # Connect to site
-    r1 = requests.get(url, headers=headers)
+    @staticmethod
+    def darkReading():
+        articles_list = []
 
-    # Get content
-    coverpage = r1.content
+        url = "https://darkreading.com/"
 
-    # Convert to soup-readable format
-    soup1 = BeautifulSoup(coverpage, 'lxml')
+        soup = News.getSoup(url)
 
-    # Extract every article on the page
-    coverpage_news = soup1.find_all('div', class_='bc_latest_news_text')
+        # Get list of articles
+        articles = soup.find('div', id='left-column-inner')
 
-    # This is a little janky, but I'm still trying to figure out bs4
-    # Add data to
-    for news in coverpage_news:
-        title = news.contents[3].a
-        link = title['href']
-        title = title.text
-        description = news.contents[5].text
-        author = news.contents[7].a.text
+        today = date.today()
 
-        articles.append([title, link, description, author])
+        for article in articles.find_all('header', class_='strong medium'):
+            data = article.findNextSibling('div', style='overflow: hidden;')
 
-    return articles
+            date_str = str(data.find('span', class_='allcaps smaller').next_sibling).split(',')[-1].strip()
+            article_date = datetime.strptime(date_str, '%m/%d/%Y').date()
+            if article_date < today:
+                # We have hit the end of today's articles
+                return
 
-# Contents requires each article to have: title, link, description, author
-# ORDER MATTERS
-def append_csv(contents, filename):
-    # Open csv file
-    with open('tmp/articles.csv', mode='a') as fp:
-        headline_writer = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            info = {}
 
-        # Write each article to csv
-        for c in contents:
-            headline_writer.writerow(c)
+            info['date'] = str(article_date)
 
-# Clear a csv file
-def clear_csv(filename):
-    with open(filename, mode='w') as fp:
-        fp.close()
+            link = article.find('a')['href']
+            info['link'] = 'https://darkreading.com' + link
+
+            info['title'] = article.find('a')['title']
+
+            description = data.find('span', class_='black smaller')
+            info['description'] = description.text
+
+            author = data.find('a', class_='color-link')
+            info['author'] = author.text
+
+            articles_list.append(info)
+
+        return articles_list
+
+
+    # Get today's news from bleepingcomputer.com
+    @staticmethod
+    def bleeping_computer():
+        # This will hold the data points from each article
+        articles_list = []
+
+        url = "https://www.bleepingcomputer.com/"
+
+        soup = News.getSoup(url)
+
+        # Extract every article on the page
+        articles = soup.find_all('div', class_='bc_latest_news_text')
+
+        today = date.today()
+
+        # This is a little janky, but I'm still trying to figure out bs4
+        # Add data to
+        for article in articles:
+            date_str = article.find('li', class_='bc_news_date').text
+            article_date = datetime.strptime(date_str, '%b %d, %Y').date()
+            if article_date < today:
+                continue
+
+            info = {}
+
+            info['date'] = str(article_date)
+
+            title = article.contents[3].a
+            link = title['href']
+            info['link'] = link
+
+            title = title.text
+            info['title'] = title
+
+            description = article.contents[5].text
+            info['description'] = description
+
+            author = article.contents[7].a.text
+            info['author'] = author
+
+            articles_list.append(info)
+
+        return articles_list
+
+    @staticmethod
+    def getNews(site):
+        if site == "bleepingcomputer":
+            return News.bleeping_computer()
+        else:
+            raise UnknownSiteError(site)
+
+class UnknownSiteError(Exception):
+    def __init__(self, site):
+        self.site = site
+
+    def __str__(self):
+        return 'Unkown site "' + self.site + '".'
