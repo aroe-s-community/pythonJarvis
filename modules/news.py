@@ -104,6 +104,8 @@ class News:
     def getNews(site):
         if site == "bleepingcomputer":
             return News.bleeping_computer()
+        if site == "darkreading":
+            return News.darkReading()
         else:
             raise UnknownSiteError(site)
 
