@@ -62,10 +62,13 @@ class News:
     # Get today's news from bleepingcomputer.com
     @staticmethod
     def bleeping_computer():
+        articles = []
+        return articles
+
         # This will hold the data points from each article
         articles_list = []
 
-        url = "https://www.bleepingcomputer.com/"
+        url = "https://bleepingcomputer.com"
 
         soup = News.getSoup(url)
 
@@ -135,6 +138,9 @@ class News:
         except ValueError:
             result = '**Pick a valid number of results to return**'
             return result
+
+        if not articles:
+            return '**Sorry, there are no articles posted today!**'
 
         formatter = Formatter()
         responses = []
