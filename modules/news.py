@@ -112,6 +112,7 @@ class News:
         else:
             raise UnknownSiteError(site)
 
+    @staticmethod
     def getNews(message):
         # format is "$news site number", where number is the number
         # of articles to return, because discord has a character limit
