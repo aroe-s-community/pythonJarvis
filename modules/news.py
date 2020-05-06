@@ -7,6 +7,10 @@ class News:
     # Sometimes requests doesn't work unless we have some specific headers *shrug*
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
 
+    # This absolutely SUCKS i hate it
+    # I'll figure out a way to make this better, maybe make it an external file
+    help_message = '```$news - get cybersecurity news\n\nFormat is $news website [num]\n\nwebsite         website target\n[num]           number of articles to fetch\n                default: 5```'
+
     # Website Scraping Functions
 
     @staticmethod
@@ -119,13 +123,16 @@ class News:
         # of 2000. You could make it send multiple messages but whatever.
         split_message = message.content.split(' ')
 
-        if len(split_message) < 3 or not isinstance(split_message[-1], int):
-            return 'Format is ```$news [website] [number of articles]```'
+        if len(split_message) < 2 or len(split_message) > 3:
+            return News.help_message
 
         site = split_message[1]
-        n = int(split_message[2])
 
         try:
+            n = 5
+            if len(split_message) == 3:
+                n = int(split_message[2])
+
             articles = News.getNewsList(site)[:n]
 
         except (UnknownSiteError, IndexError):
