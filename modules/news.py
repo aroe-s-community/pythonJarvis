@@ -139,7 +139,7 @@ class News:
         formatter = Formatter()
         responses = []
         for i, article in enumerate(articles):
-            response = formatter.format("{num}. {title} by {author} ({link})", num=i, \
+            response = formatter.format("{num}. {title} by {author} ({link})", num=i+1, \
                                         title=article['title'], author=article['author'], \
                                         link=article['link'])
 
