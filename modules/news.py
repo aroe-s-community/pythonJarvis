@@ -1,10 +1,13 @@
 from bs4 import BeautifulSoup
 from datetime import date, datetime
+from string import Formatter
 import requests
 
 class News:
     # Sometimes requests doesn't work unless we have some specific headers *shrug*
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
+
+    # Website Scraping Functions
 
     @staticmethod
     def getSoup(url):
@@ -34,7 +37,7 @@ class News:
             article_date = datetime.strptime(date_str, '%m/%d/%Y').date()
             if article_date < today:
                 # We have hit the end of today's articles
-                return
+                break
 
             info = {}
 
@@ -101,13 +104,49 @@ class News:
         return articles_list
 
     @staticmethod
-    def getNews(site):
+    def getNewsList(site):
         if site == "bleepingcomputer":
             return News.bleeping_computer()
-        if site == "darkreading":
+        elif site == "darkreading":
             return News.darkReading()
         else:
             raise UnknownSiteError(site)
+
+    def getNews(message):
+        # format is "$news site number", where number is the number
+        # of articles to return, because discord has a character limit
+        # of 2000. You could make it send multiple messages but whatever.
+        split_message = message.content.split(' ')
+
+        if len(split_message) < 3:
+            return 'Format is ```$news [website] [number of articles]```'
+
+        site = split_message[1]
+        n = int(split_message[2])
+
+        try:
+            articles = News.getNewsList(site)[:n]
+
+        except (UnknownSiteError, IndexError):
+            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading'
+            return result
+
+        except ValueError:
+            result = '**Pick a valid number of results to return**'
+            return result
+
+        formatter = Formatter()
+        responses = []
+        for i, article in enumerate(articles):
+            response = formatter.format("{num}. {title} by {author} ({link})", num=i, \
+                                        title=article['title'], author=article['author'], \
+                                        link=article['link'])
+
+            responses.append(response)
+
+        result = '\n'.join(responses)
+
+        return result
 
 class UnknownSiteError(Exception):
     def __init__(self, site):
