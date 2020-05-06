@@ -62,9 +62,6 @@ class News:
     # Get today's news from bleepingcomputer.com
     @staticmethod
     def bleeping_computer():
-        articles = []
-        return articles
-
         # This will hold the data points from each article
         articles_list = []
 
@@ -122,7 +119,7 @@ class News:
         # of 2000. You could make it send multiple messages but whatever.
         split_message = message.content.split(' ')
 
-        if len(split_message) < 3:
+        if len(split_message) < 3 or not isinstance(split_message[-1], int):
             return 'Format is ```$news [website] [number of articles]```'
 
         site = split_message[1]
