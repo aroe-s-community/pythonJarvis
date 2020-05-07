@@ -21,9 +21,9 @@ class News:
     @staticmethod
     def getNewsList(site):
         if site == "bleepingcomputer":
-            return RSS.getEntries(News.bleepingComputer)
+            return News.getEntries(News.bleepingComputer)
         elif site == "darkreading":
-            return RSS.getEntries(News.darkReading)
+            return News.getEntries(News.darkReading)
         else:
             raise UnknownSiteError(site)
 
