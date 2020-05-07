@@ -5,9 +5,11 @@ from time import mktime
 import feedparser
 
 class News:
-    # This absolutely SUCKS i hate it
-    # I'll figure out a way to make this better, maybe make it an external file
-    help_message = '```$news - get cybersecurity news\n\nFormat is $news website [num]\n\nwebsite         website target\n[num]           number of articles to fetch\n                default: 5```'
+    helpFile = 'docs/news.md'
+    # Get help message
+    def getHelp():
+        with open(News.helpFile, 'r') as fp:
+            return fp.read()
 
     # Feed URLs
     bleepingComputer = "https://bleepingcomputer.com/feed/"
@@ -35,7 +37,7 @@ class News:
         split_message = message.content.split(' ')
 
         if len(split_message) < 2 or len(split_message) > 3:
-            return News.help_message
+            return News.getHelp()
 
         site = split_message[1]
 
