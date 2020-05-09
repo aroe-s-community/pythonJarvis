@@ -87,8 +87,8 @@ $cve modified (keyword)
         except (KeyError, TypeError):
             args = message.content.split(' ')
             user_in = ' '.join(args[1:])
-            return ('Did not understand your request for: ' + user_in)
+            return ('**Did not understand your request for:** ' + user_in)
 
         except JSONDecodeError:
-            return ('NETWORK ERROR: Please check your request or try again later.')
+            return ('**NETWORK ERROR:** Please check your request or try again later.')
 
