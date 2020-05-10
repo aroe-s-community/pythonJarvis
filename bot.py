@@ -3,6 +3,7 @@ import discord
 import os
 
 # Local dependencies
+from modules.cve import CVE
 from modules.csv import CSV
 from modules.news import News
 from modules.discordhelp import DiscordHelp
@@ -32,6 +33,10 @@ async def on_message(message):
         if not DiscordHelp.isValidLength(result):
             result = "**Too many articles to list**"
 
+        await message.channel.send(result)
+
+    if message.content.startswith('$cve'):
+        result = CVE.cveSearch(message)
         await message.channel.send(result)
 
 client.run(token)
