@@ -18,7 +18,7 @@ $ cd new_jarvis_discord_bot
 $ pip install -r requirements.txt
 
 # Set environment variable (Linux)
-$ export JARVIS=[Bot Token Here]
+$ export JARVIS_TOKEN=[Bot Token Here]
 ```
 
 ## Contributing
