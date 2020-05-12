@@ -36,6 +36,14 @@ class News:
             return News.getEntries(News._3howley)
         elif site == "plastic":
             return News.getEntries(News.plastic)
+        elif site == "ycombinator":
+            return News.getEntries(News.ycombinator)
+        elif site =="nakedsecurity":
+            return News.getEntries(News.nakedsecurity)
+        elif site == "threatpost":
+            return News.getEntries(News.threatpost)
+        elif site == "krebs":
+            return News.getEntries(News.krebs)
         else:
             raise UnknownSiteError(site)
 
@@ -59,7 +67,7 @@ class News:
             articles = News.getNewsList(site)[:n]
 
         except (UnknownSiteError, IndexError):
-            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading\n3howley\nplastic'
+            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading\n3howley\nplastic\nycombinator\nthreatpost\nkrebs\nnakedsecurity'
             return result
 
         except ValueError:
@@ -80,9 +88,9 @@ class News:
 
             link = article['link']
 
-            response = formatter.format("{num}. {_title}{_author} ({_link})", num=i+1, \
+            response = formatter.format("{num}. {_title}{_author} ({link})", num=i+1, \
                                         _title=title, _author=author, \
-                                        _link=link)
+                                        link=link)
 
             responses.append(response)
 
