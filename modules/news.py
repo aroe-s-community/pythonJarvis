@@ -88,7 +88,7 @@ class News:
 
             link = article['link']
 
-            response = formatter.format("{num}. {_title}{_author} ({link})", num=i+1, \
+            response = formatter.format("{num}. {_title}{_author} (<{link}>)", num=i+1, \
                                         _title=title, _author=author, \
                                         link=link)
 
