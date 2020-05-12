@@ -14,6 +14,12 @@ class News:
     # Feed URLs
     bleepingComputer = "https://bleepingcomputer.com/feed/"
     darkReading = "https://www.darkreading.com/rss_simple.asp"
+    _3howley = "https://ethanizen.com//feed.xml"
+    plastic = "https://plasticuproject.github.io/blog/index.xml"
+    ycombinator = "https://news.ycombinator.com/rss"
+    nakedsecurity = "https://nakedsecurity.sophos.com/feed/"
+    threatpost = "https://threatpost.com/feed/"
+    krebs = "https://krebsonsecurity.com/feed/"
 
     # Get list of articles from url
     @staticmethod
@@ -26,6 +32,10 @@ class News:
             return News.getEntries(News.bleepingComputer)
         elif site == "darkreading":
             return News.getEntries(News.darkReading)
+        elif site == "3howley":
+            return News.getEntries(News._3howley)
+        elif site == "plastic":
+            return News.getEntries(News.plastic)
         else:
             raise UnknownSiteError(site)
 
@@ -49,7 +59,7 @@ class News:
             articles = News.getNewsList(site)[:n]
 
         except (UnknownSiteError, IndexError):
-            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading'
+            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading\n3howley\nplastic'
             return result
 
         except ValueError:
@@ -57,19 +67,22 @@ class News:
             return result
 
         if not articles:
-            return '**Sorry, there are no articles posted today!**'
+            return '**Sorry, there are no articles!**'
 
         formatter = Formatter()
         responses = []
-        today = date.today()
         for i, article in enumerate(articles):
-            date_ = date.fromtimestamp(mktime(article['published_parsed']))
-            if today > date_:
-                break
+            title = article['title']
 
-            response = formatter.format("{num}. {title} by {author} ({link})", num=i+1, \
-                                        title=article['title'], author=article['author'], \
-                                        link=article['link'])
+            author = ''
+            if 'author' in article.keys():
+                author = ' by ' + article['author']
+
+            link = article['link']
+
+            response = formatter.format("{num}. {_title}{_author} ({_link})", num=i+1, \
+                                        _title=title, _author=author, \
+                                        _link=link)
 
             responses.append(response)
 
