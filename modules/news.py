@@ -12,14 +12,16 @@ class News:
             return fp.read()
 
     # Feed URLs
-    bleepingComputer = "https://bleepingcomputer.com/feed/"
-    darkReading = "https://www.darkreading.com/rss_simple.asp"
-    _3howley = "https://ethanizen.com//feed.xml"
-    plastic = "https://plasticuproject.github.io/blog/index.xml"
-    ycombinator = "https://news.ycombinator.com/rss"
-    nakedsecurity = "https://nakedsecurity.sophos.com/feed/"
-    threatpost = "https://threatpost.com/feed/"
-    krebs = "https://krebsonsecurity.com/feed/"
+    sites = {
+        "bleepingComputer": "https://bleepingcomputer.com/feed/",
+        "darkReading": "https://www.darkreading.com/rss_simple.asp",
+        "_3howley": "https://ethanizen.com//feed.xml",
+        "plastic": "https://plasticuproject.github.io/blog/index.xml",
+        "ycombinator": "https://news.ycombinator.com/rss",
+        "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
+        "threatpost": "https://threatpost.com/feed/",
+        "krebs": "https://krebsonsecurity.com/feed/",
+    }
 
     # Get list of articles from url
     @staticmethod
@@ -29,21 +31,21 @@ class News:
     @staticmethod
     def getNewsList(site):
         if site == "bleepingcomputer":
-            return News.getEntries(News.bleepingComputer)
+            return News.getEntries(News.sites['bleepingComputer'])
         elif site == "darkreading":
-            return News.getEntries(News.darkReading)
+            return News.getEntries(News.sites['darkReading'])
         elif site == "3howley":
-            return News.getEntries(News._3howley)
+            return News.getEntries(News.sites['_3howley'])
         elif site == "plastic":
-            return News.getEntries(News.plastic)
+            return News.getEntries(News.sites['plastic'])
         elif site == "ycombinator":
-            return News.getEntries(News.ycombinator)
+            return News.getEntries(News.sites['ycombinator'])
         elif site =="nakedsecurity":
-            return News.getEntries(News.nakedsecurity)
+            return News.getEntries(News.sites['nakedsecurity'])
         elif site == "threatpost":
-            return News.getEntries(News.threatpost)
+            return News.getEntries(News.sites['threatpost'])
         elif site == "krebs":
-            return News.getEntries(News.krebs)
+            return News.getEntries(News.sites['krebs'])
         else:
             raise UnknownSiteError(site)
 
