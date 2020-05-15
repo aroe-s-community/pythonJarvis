@@ -13,14 +13,14 @@ class News:
 
     # Feed URLs
     sites = {
-        "bleepingComputer": "https://bleepingcomputer.com/feed/",
-        "darkReading": "https://www.darkreading.com/rss_simple.asp",
+        "bleepingcomputer": "https://bleepingcomputer.com/feed/",
+        "darkreading": "https://www.darkreading.com/rss_simple.asp",
         "_3howley": "https://ethanizen.com//feed.xml",
         "plastic": "https://plasticuproject.github.io/blog/index.xml",
         "ycombinator": "https://news.ycombinator.com/rss",
         "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
         "threatpost": "https://threatpost.com/feed/",
-        "krebs": "https://krebsonsecurity.com/feed/",
+        "krebs": "https://krebsonsecurity.com/feed/"
     }
 
     # Get list of articles from url
@@ -30,22 +30,8 @@ class News:
 
     @staticmethod
     def getNewsList(site):
-        if site == "bleepingcomputer":
-            return News.getEntries(News.sites['bleepingComputer'])
-        elif site == "darkreading":
-            return News.getEntries(News.sites['darkReading'])
-        elif site == "3howley":
-            return News.getEntries(News.sites['_3howley'])
-        elif site == "plastic":
-            return News.getEntries(News.sites['plastic'])
-        elif site == "ycombinator":
-            return News.getEntries(News.sites['ycombinator'])
-        elif site =="nakedsecurity":
-            return News.getEntries(News.sites['nakedsecurity'])
-        elif site == "threatpost":
-            return News.getEntries(News.sites['threatpost'])
-        elif site == "krebs":
-            return News.getEntries(News.sites['krebs'])
+        if site in News.sites:
+            return News.getEntries(News.sites[site])
         else:
             raise UnknownSiteError(site)
 
@@ -69,7 +55,9 @@ class News:
             articles = News.getNewsList(site)[:n]
 
         except (UnknownSiteError, IndexError):
-            result = '**Valid sites are:** \n\nbleepingcomputer\ndarkreading\n3howley\nplastic\nycombinator\nthreatpost\nkrebs\nnakedsecurity'
+            sites = '\n'.join(News.sites.keys())
+
+            result = '**Valid sites are:**\n\n' + sites
             return result
 
         except ValueError:
