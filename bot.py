@@ -7,6 +7,7 @@ from modules.cve import CVE
 from modules.csv import CSV
 from modules.news import News
 from modules.discordhelp import DiscordHelp
+from modules.tldr import TLDR
 
 client = discord.Client()
 
@@ -38,5 +39,13 @@ async def on_message(message):
     if message.content.startswith('$cve'):
         result = CVE.cveSearch(message)
         await message.channel.send(result)
+
+    if message.content.startswith('$tldr'):
+        result = TLDR.tldr(message)
+        if isinstance(result, discord.Embed):
+            await message.channel.send(embed=result)
+        else:
+            await message.channel.send(result)
+
 
 client.run(token)
