@@ -6,7 +6,7 @@ $tldr command
 
 command             command to lookup
                     if a command has a space (`git commit`)
-                    put a `-` instead of a the space (`git-commit`)
+                    put a `-` instead of the space (`git-commit`)
 
 Examples:
 $tldr 7z
