@@ -14,6 +14,12 @@ client = discord.Client()
 # `export JARVIS_TOKEN="<token>"`
 token = os.environ['JARVIS_TOKEN']
 
+helpFile = 'docs/bot.md'
+
+def helpMessage():
+    with open(helpFile, 'r') as fp:
+        return fp.read()
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -23,6 +29,9 @@ async def on_message(message):
 
     if message.author == client.user:
         return
+
+    if message.content.startswith('$help'):
+        await message.channel.send(helpMessage())
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
