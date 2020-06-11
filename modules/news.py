@@ -26,9 +26,9 @@ class News:
     @staticmethod
     def isHelp(message):
         if message == '-h' or message == '--help':
-            return true
+            return True
 
-        return false
+        return False
 
     # Get list of articles from url
     @staticmethod
