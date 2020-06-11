@@ -19,9 +19,9 @@ class TLDR:
 
     def isHelp(message):
         if message == '-h' or message == '--help':
-            return true
+            return True
 
-        return false
+        return False
 
     # Given a command str and list of platforms for that command,
     # loop through general list of platforms in specific order
