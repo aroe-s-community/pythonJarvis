@@ -23,6 +23,13 @@ class News:
         "krebs": "https://krebsonsecurity.com/feed/"
     }
 
+    @staticmethod
+    def isHelp(message):
+        if message == '-h' or message == '--help':
+            return True
+
+        return False
+
     # Get list of articles from url
     @staticmethod
     def getEntries(url):
@@ -42,7 +49,7 @@ class News:
         # of 2000. You could make it send multiple messages but whatever.
         split_message = message.content.split(' ')
 
-        if len(split_message) < 2 or len(split_message) > 3:
+        if len(split_message) < 2 or len(split_message) > 3 or News.isHelp(split_message[1]):
             return News.getHelp()
 
         site = split_message[1]
