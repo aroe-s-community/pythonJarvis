@@ -17,6 +17,12 @@ class TLDR:
         with open(TLDR.helpFile, 'r') as fp:
             return fp.read()
 
+    def isHelp(message):
+        if message == '-h' or message == '--help':
+            return True
+
+        return False
+
     # Given a command str and list of platforms for that command,
     # loop through general list of platforms in specific order
     def getPageURL(command, platforms):
@@ -53,7 +59,7 @@ class TLDR:
     def tldr(message):
         splitMessage = message.content.split(' ')
 
-        if len(splitMessage) != 2 or splitMessage[1] == "-h":
+        if len(splitMessage) != 2 or TLDR.isHelp(splitMessage[1]):
             return TLDR.getHelp()
 
         # Get the command we are searching for
