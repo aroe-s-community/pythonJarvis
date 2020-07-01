@@ -8,6 +8,7 @@ from modules.csv import CSV
 from modules.news import News
 from modules.discordhelp import DiscordHelp
 from modules.tldr import TLDR
+from modules.password_analyzer import Analyze
 
 client = discord.Client()
 
@@ -39,10 +40,8 @@ async def on_message(message):
 
     if message.content.startswith('$news'):
         result = News.getNews(message)
-
         if not DiscordHelp.isValidLength(result):
             result = "**Too many articles to list**"
-
         await message.channel.send(result)
 
     if message.content.startswith('$cve'):
@@ -51,6 +50,13 @@ async def on_message(message):
 
     if message.content.startswith('$tldr'):
         result = TLDR.tldr(message)
+        if isinstance(result, discord.Embed):
+            await message.channel.send(embed=result)
+        else:
+            await message.channel.send(result)
+
+    if message.content.startswith('$password'):
+        result = Analyze.check_password(message)
         if isinstance(result, discord.Embed):
             await message.channel.send(embed=result)
         else:
