@@ -46,7 +46,7 @@ class Analyze:
             embed.add_field(name='Warning', value=warning)
         if len(suggestions) > 0:
             for suggest in suggestions:
-                embed.add_field(name='Suggestions', value=suggest)
+                embed.add_field(name='Suggestion', value=suggest)
 
         return embed
 
