@@ -20,8 +20,16 @@ class News:
         "ycombinator": "https://news.ycombinator.com/rss",
         "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
         "threatpost": "https://threatpost.com/feed/",
-        "krebs": "https://krebsonsecurity.com/feed/"
+        "krebs": "https://krebsonsecurity.com/feed/",
+        "andrei": "https://threatlounge.eu/feed.xml"
     }
+
+    @staticmethod
+    def isHelp(message):
+        if message == '-h' or message == '--help':
+            return True
+
+        return False
 
     # Get list of articles from url
     @staticmethod
@@ -42,7 +50,7 @@ class News:
         # of 2000. You could make it send multiple messages but whatever.
         split_message = message.content.split(' ')
 
-        if len(split_message) < 2 or len(split_message) > 3:
+        if len(split_message) < 2 or len(split_message) > 3 or News.isHelp(split_message[1]):
             return News.getHelp()
 
         site = split_message[1]
