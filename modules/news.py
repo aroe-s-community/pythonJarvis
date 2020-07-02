@@ -20,7 +20,8 @@ class News:
         "ycombinator": "https://news.ycombinator.com/rss",
         "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
         "threatpost": "https://threatpost.com/feed/",
-        "krebs": "https://krebsonsecurity.com/feed/"
+        "krebs": "https://krebsonsecurity.com/feed/",
+        "andrei": "https://threatlounge.eu/feed.xml"
     }
 
     @staticmethod
