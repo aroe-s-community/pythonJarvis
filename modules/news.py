@@ -21,7 +21,8 @@ class News:
         "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
         "threatpost": "https://threatpost.com/feed/",
         "krebs": "https://krebsonsecurity.com/feed/",
-        "andrei": "https://threatlounge.eu/feed.xml"
+        "andrei": "https://threatlounge.eu/feed.xml",
+        "aroe":"https://aroe.tech/feed" ##TODO add your feed you moron @aroe
     }
 
     @staticmethod
