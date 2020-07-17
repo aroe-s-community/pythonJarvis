@@ -21,6 +21,7 @@ class News:
         "nakedsecurity": "https://nakedsecurity.sophos.com/feed/",
         "threatpost": "https://threatpost.com/feed/",
         "krebs": "https://krebsonsecurity.com/feed/",
+        "thehackernews": "http://feeds.feedburner.com/TheHackersNews?format=xml",
         "andrei": "https://threatlounge.eu/feed.xml"
     }
 
